@@ -1088,7 +1088,7 @@ const WITHDRAWN_IDS = new Set([
   "sakuraihikaru"
 ]);
 
-const LS_FAVORITES_KEY = "vote_favorites_v1";
+const LS_FAVORITES_KEY = "vote_favorites_onepick_v1";
 
 /* ===== UI elements (vote) ===== */
 const toggleBtn = document.getElementById("toggleBtn");
@@ -1230,10 +1230,10 @@ function sortFavoritesFirst(list){
 }
 
 /* ===== マイ投票 ===== */
-const LS_TODAY_PREFIX = "vote_my_today_v1:";
-const LS_COUNTS_KEY   = "vote_my_counts_v1";
-const LS_TOTALSUB_KEY = "vote_my_totalSub_v1";
-const LS_PREV_VOTE_KEY = "vote_prev_vote_v1";
+const LS_TODAY_PREFIX = "vote_my_today_onepick_v1:";
+const LS_COUNTS_KEY   = "vote_my_counts_onepick_v1";
+const LS_TOTALSUB_KEY = "vote_my_totalSub_onepick_v1";
+const LS_PREV_VOTE_KEY = "vote_prev_vote_onepick_v1";
 
 const btnMyToday  = document.getElementById("btnMyToday");
 const btnMyTotal  = document.getElementById("btnMyTotal");
@@ -1582,7 +1582,7 @@ function todayTokyo(){
 
 /* ==== userKey ==== */
 function getOrCreateUserKey(){
-  const keyName = "vote_userKey_v1";
+  const keyName = "vote_userKey_onepick_v1";
   let k = localStorage.getItem(keyName);
   if(!k){
     const rand = (crypto?.randomUUID?.() || (Math.random().toString(16).slice(2) + Date.now().toString(16)));
@@ -1594,10 +1594,10 @@ function getOrCreateUserKey(){
 
 /* ==== 二重送信ブロック ==== */
 function lastVoteToken(){
-  return localStorage.getItem("vote_lastToken_v1") || "";
+  return localStorage.getItem("vote_lastToken_onepick_v1") || "";
 }
 function setLastVoteToken(token){
-  localStorage.setItem("vote_lastToken_v1", token);
+  localStorage.setItem("vote_lastToken_onepick_v1", token);
 }
 
 /* ==== 送信 ==== */
