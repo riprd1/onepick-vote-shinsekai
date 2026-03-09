@@ -1,0 +1,1924 @@
+<!doctype html>
+<html lang="ja">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QYDLTG98R4"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-QYDLTG98R4');
+</script>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>投票（1人）</title>
+  <style>
+    :root{
+      --bd:#e6e6e6;
+      --bg:#fafafa;
+      --txt:#111;
+      --sub:#666;
+      --pill:#f2f2f2;
+    }
+    body{
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      color: var(--txt);
+      background: #fff;
+    }
+
+    /* ===== ヘッダー画像 ===== */
+    .header{
+      width: 100%;
+      height: 110px;
+      background-image: url("https://i.imgur.com/wJy5Wb5.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* ===== 右上：画面切替ボタン ===== */
+    .topNav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--bd);
+    }
+    .topNavInner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+    }
+    .brand{
+      font-weight: 900;
+      font-size: 13px;
+      color: var(--sub);
+      white-space: nowrap;
+    }
+    .navBtns{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .navBtn{
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--bd);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .navBtn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    .page{
+      padding: 16px;
+    }
+
+    h1{font-size:18px;margin:12px 0 10px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{
+      padding:10px 12px;border:1px solid var(--bd);
+      border-radius:12px;background:#fff;font-weight:800;cursor:pointer;
+    }
+    .btn.primary{background:#111;color:#fff;border-color:#111}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    input[type="text"]{
+      padding:10px 12px;border:1px solid var(--bd);
+      border-radius:12px;min-width:180px;flex:1;
+    }
+    .sub{color:var(--sub);font-size:12px}
+
+    /* ===== TikTokボタン ===== */
+    .tiktokBtn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.15);
+      background: rgba(255,255,255,.9);
+      color: #111;
+      font-weight: 900;
+      font-size: 12px;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .tiktokBtn:active{ transform: translateY(1px); }
+
+    /* ===== Xシェア ===== */
+    .shareRow{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .xShareBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--bd);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+      text-decoration:none;
+      color:#111;
+      line-height: 1;
+    }
+    .xShareBtn:active{ transform: translateY(1px); }
+
+    /* ===== 画面切替 ===== */
+    .view{ display:none; }
+    .view.active{ display:block; }
+
+    /* ===== 上：選択1人 ===== */
+    .selectedWrap{
+      border:1px solid var(--bd);
+      border-radius:16px;
+      padding:12px;
+      background: var(--bg);
+    }
+    .selectedTitle{
+      font-weight:900;
+      font-size:13px;
+      margin:0 0 8px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .selectedCount{font-weight:900}
+
+    .slots{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      padding:6px 2px 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .slot{
+      flex:0 0 auto;
+      width:74px;
+      height:74px;
+      border-radius:18px;
+      border:2px dashed #cfcfcf;
+      background:#fff;
+      display:grid;
+      place-items:center;
+      color:#9a9a9a;
+      font-weight:900;
+      position:relative;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: pan-x;
+    }
+    .slot.filled{
+      border-style:solid;
+      border-color:#dedede;
+      padding:0;
+      overflow:hidden;
+      cursor: pointer;
+    }
+    .slot img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#f2f2f2;
+    }
+
+    /* ===== 一覧エリア ===== */
+    .listHeader{
+      margin-top:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .listHeader h2{
+      margin:0;
+      font-size:14px;
+      font-weight:900;
+    }
+    .controlsRow{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .stickyControls{
+      position: sticky;
+      top: 56px;
+      z-index: 30;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(6px);
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .controlsRow input[type="text"]{
+      flex: 1;
+      min-width: 0;
+    }
+    .togglePill{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--bd);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+      white-space:nowrap;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .togglePill .dot{
+      width:10px;height:10px;border-radius:999px;background:#111;opacity:.25;
+    }
+    .togglePill.on .dot{ opacity:1; }
+
+    .listSection{
+      margin-top: 14px;
+      border-radius: 18px;
+      overflow: visible;
+      background-image: url("https://i.imgur.com/eTuwSDL.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 14px;
+      border: 1px solid var(--bd);
+    }
+    .listSection .overlay{
+      background: rgba(255,255,255,.82);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .grid{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:14px;
+    }
+    .card{
+      position: relative;
+      border:1px solid var(--bd);
+      border-radius:18px;
+      padding:12px;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .avatar{
+      width:100%;
+      aspect-ratio: 4 / 5;
+      height:auto;
+      border-radius:16px;
+      overflow:hidden;
+      background:#f2f2f2;
+      position:relative;
+    }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .profileBtn{
+      position:absolute;
+      top:10px;
+      right:10px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:2px solid rgba(100,150,255,.35);
+      background:rgba(255,255,255,.85);
+      color:#2f6fe8;
+      font-weight:900;
+      font-size:12px;
+      text-decoration:none;
+      backdrop-filter: blur(6px);
+    }
+
+    .favBtn{
+      position:absolute;
+      top:10px;
+      left:10px;
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      border:2px solid rgba(255,215,0,.55);
+      background:rgba(255,255,255,.92);
+      color:#bbb;
+      font-size:18px;
+      line-height:1;
+      font-weight:1000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      backdrop-filter: blur(6px);
+      z-index:2;
+    }
+    .favBtn.active{
+      color:#f5c400;
+      border-color:#f5c400;
+      background:rgba(255,255,255,.96);
+    }
+
+    .info{min-width:0;text-align:center}
+    .name{
+      font-weight:900;
+      font-size:14px;
+      line-height:1.25;
+      word-break:break-word;
+    }
+    .meta{font-size:12px;color:var(--sub);margin-top:4px}
+
+    .picked{
+      opacity: .45;
+      filter: grayscale(1);
+      outline: 2px solid rgba(0,0,0,.08);
+      pointer-events: none;
+    }
+    .picked .profileBtn{
+      pointer-events: auto;
+      opacity: 1;
+      filter: none;
+    }
+    .picked .favBtn{
+      pointer-events: auto;
+      opacity: 1;
+      filter: none;
+    }
+
+    .withdrawn{
+      opacity: .35;
+      filter: grayscale(1);
+      outline: 2px solid rgba(0,0,0,.06);
+      pointer-events: none;
+    }
+    .withdrawn .profileBtn{
+      pointer-events: auto;
+      opacity: 1;
+      filter: none;
+    }
+    .withdrawn .favBtn{
+      pointer-events: auto;
+      opacity: 1;
+      filter: none;
+    }
+    .withdrawn .avatar::after{
+      content: "※辞退";
+      position: absolute;
+      inset: 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 1000;
+      font-size: 16px;
+      color:#d00;
+      background: rgba(255,255,255,.55);
+    }
+
+    @media (max-width: 340px){
+      .grid{grid-template-columns: 1fr;}
+    }
+
+    /* ===== ランキング画面 ===== */
+    .rankPage{
+      padding: 16px;
+    }
+    .rankCard{
+      border:1px solid var(--bd);
+      border-radius:16px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .rankHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 12px;
+      background: var(--bg);
+      border-bottom:1px solid var(--bd);
+    }
+    .rankHead h2{
+      margin:0;
+      font-size:14px;
+      font-weight:900;
+    }
+    .rankMeta{
+      font-size:12px;
+      color: var(--sub);
+      white-space:nowrap;
+    }
+    .rankBody{
+      padding: 10px 12px 12px;
+    }
+
+    .rankStatusRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin: 0 0 8px;
+    }
+    .rankStatus{
+      font-size:12px;
+      color: var(--sub);
+      margin:0;
+      white-space:nowrap;
+    }
+    .rankHint{
+      font-size:12px;
+      color: var(--sub);
+      margin:0;
+      text-align:right;
+      white-space:nowrap;
+    }
+
+    .rankTable{
+      width:100%;
+      border-collapse: collapse;
+      font-size:13px;
+    }
+    .rankTable th, .rankTable td{
+      padding: 10px 6px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+    .rankTable th{
+      text-align:left;
+      color: var(--sub);
+      font-weight:800;
+      font-size:12px;
+    }
+    .rankNum{ width:44px; font-weight:900; }
+
+    .rankVotes{
+      width:88px;
+      text-align:right;
+      font-variant-numeric: tabular-nums;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .rankLeft{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .rankThumbLink{
+      display:inline-flex;
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      overflow:hidden;
+      flex:0 0 auto;
+      border:1px solid rgba(0,0,0,.08);
+      background:#f2f2f2;
+      text-decoration:none;
+    }
+    .rankThumb{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .rankName{
+      font-weight:900;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    #rankOpenSheet{ display:none; }
+
+    .modalOverlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 18px;
+    }
+    .modalOverlay.open{ display:flex; }
+
+    .modalCard{
+      width: min(420px, 100%);
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 12px 40px rgba(0,0,0,.18);
+      overflow: hidden;
+    }
+    .modalHead{
+      padding: 14px 14px 10px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--bd);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .modalTitle{
+      font-weight: 1000;
+      font-size: 14px;
+      margin: 0;
+    }
+    .modalCloseX{
+      border: 1px solid var(--bd);
+      background:#fff;
+      border-radius: 999px;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      font-weight: 1000;
+      line-height: 1;
+    }
+    .modalBody{
+      padding: 14px;
+    }
+    .modalMsg{
+      margin: 0 0 12px;
+      font-weight: 900;
+      font-size: 14px;
+    }
+    .modalSub{
+      margin: 0 0 14px;
+      color: var(--sub);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .modalActions{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top:-6px;
+    }
+    .modalBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px 10px;
+      border-radius:10px;
+      border:1px solid var(--bd);
+      background:#fff;
+      font-weight:900;
+      font-size:12px;
+      cursor:pointer;
+      text-decoration:none;
+      color:#111;
+      line-height:1;
+    }
+    .modalBtn.primary{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    .myBox{
+      border:1px solid var(--bd);
+      border-radius:16px;
+      background:#fff;
+      padding:10px;
+      margin: 0 0 10px;
+    }
+    .myBtns{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .myBtn{
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--bd);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      line-height:1;
+    }
+    .myBtn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+    .myPanel{
+      margin-top:10px;
+      border-top:1px solid #f0f0f0;
+      padding-top:10px;
+      display:none;
+    }
+    .myPanel.active{ display:block; }
+
+    .myGrid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    .myItem{
+      border:1px solid #f1f1f1;
+      border-radius:14px;
+      padding:8px;
+      background:#fff;
+    }
+    .myThumb{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius:12px;
+      overflow:hidden;
+      background:#f2f2f2;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .myThumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .myName{
+      margin-top:6px;
+      font-weight:900;
+      font-size:12px;
+      line-height:1.2;
+      word-break:break-word;
+    }
+    .myCount{
+      margin-top:4px;
+      font-size:12px;
+      color: var(--sub);
+      font-weight:900;
+    }
+    .myTop3{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .myRankBadge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.12);
+      font-weight:1000;
+      font-size:12px;
+      background:#fff;
+    }
+    .myNote{
+      margin-top:10px;
+      font-size:12px;
+      color: var(--sub);
+      line-height:1.5;
+    }
+
+    .welcomeOverlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+    .welcomeCard{
+      width: min(420px, 100%);
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    .welcomeTitle{
+      font-weight: 1000;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .welcomeText{
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .welcomeBtn{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(220px, 75%);
+      margin: 0 auto;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #111;
+      color: #fff;
+      font-weight: 1000;
+      text-decoration: none;
+      line-height: 1;
+      font-size: 14px;
+    }
+    .welcomeClose{
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-size: 12px;
+      border: none;
+      background: none;
+      color: #666;
+      cursor: pointer;
+      font-weight: 900;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header"></div>
+
+  <div class="topNav">
+    <div class="topNavInner">
+      <div class="brand">PRODUCE 101 / 非公式ファン投票</div>
+      <div class="navBtns">
+        <button id="btnVote" class="navBtn active" type="button">投票</button>
+        <button id="btnRank" class="navBtn" type="button">ランキング</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="voteView" class="view active">
+    <div class="page">
+      <h1>投票（1日1回・1人選択）</h1>
+
+      <div class="selectedWrap">
+        <div class="selectedTitle">
+          <span>選択中</span>
+          <span class="selectedCount"><span id="count">0</span>/1</span>
+        </div>
+        <div class="slots" id="slots"></div>
+
+        <div class="row" style="margin-top:10px;">
+          <button id="clearBtn" class="btn">リセット</button>
+          <button id="undoBtn" class="btn">1人戻す</button>
+          <button id="prevVoteBtn" class="btn" type="button">前回の練習生に投票</button>
+          <button id="voteBtn" class="btn primary" disabled>1人選んで投票</button>
+        </div>
+
+        <div id="shareWrap" class="shareRow" style="display:none;">
+          <a id="xShareBtn" class="xShareBtn" href="#" target="_blank" rel="noopener noreferrer">Xでシェア</a>
+          <span class="sub">※押すとXの投稿画面が開きます</span>
+        </div>
+
+        <div class="sub" style="margin-top:6px;">
+          ※上の顔をタップで削除できます<br>
+          ※投票権は日本時間0:00にリセットされます<br>
+          <span style="color:#d00; font-weight:900;">
+            ※本ページは非公式（ファンメイド）であり<br>
+            番組・運営・公式投票とは無関係です。
+            <a class="tiktokBtn" href="https://www.tiktok.com/@12agassi" target="_blank" rel="noopener noreferrer">TikTok</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="listSection">
+        <div class="overlay">
+          <div class="listHeader">
+            <h2>一覧（押して追加）</h2>
+            <span class="sub" id="resultCount"></span>
+          </div>
+
+          <div class="controlsRow stickyControls">
+            <input id="search" type="text" placeholder="Search（名前/英字/ID）">
+            <button id="toggleBtn" class="togglePill on" type="button">
+              <span class="dot"></span>
+              <span id="modeText">練習生</span>
+            </button>
+          </div>
+
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rankView" class="view">
+    <div class="rankPage">
+      <div class="rankCard">
+        <div class="rankHead">
+          <h2>ランキング</h2>
+          <div class="rankActions">
+            <a id="rankOpenSheet" class="rankLink" href="#" target="_blank" rel="noopener noreferrer">集計シート</a>
+            <span id="rankUpdated" class="rankMeta">未読込</span>
+          </div>
+        </div>
+        <div class="rankBody">
+
+          <div class="myBox">
+            <div class="myBtns">
+              <button id="btnMyToday" class="myBtn" type="button">🗳 今日の投票</button>
+              <button id="btnMyTotal" class="myBtn" type="button">📊 マイ累計</button>
+            </div>
+
+            <div id="panelMyToday" class="myPanel">
+              <div class="sub" id="myTodayMeta">未保存</div>
+              <div id="myTodayGrid" class="myGrid" style="margin-top:10px;"></div>
+              <div class="myNote">
+                ※同じ端末・同じブラウザでのみ表示されます。<br>
+                ※閲覧履歴/サイトデータ削除・別ブラウザで開くと消える可能性があります。
+              </div>
+            </div>
+
+            <div id="panelMyTotal" class="myPanel">
+              <div class="sub" id="myTotalMeta">未保存</div>
+
+              <div style="margin-top:10px;">
+                <div class="sub" style="font-weight:900;">上位3名（回数順）</div>
+                <div id="myTop3" class="myTop3" style="margin-top:8px;"></div>
+              </div>
+
+              <div style="margin-top:12px;">
+                <div id="myTotalGrid" class="myGrid" style="margin-top:8px;"></div>
+              </div>
+
+              <div class="myNote">
+                ※同じ端末・同じブラウザでのみ表示されます。<br>
+                ※閲覧履歴/サイトデータ削除・別ブラウザで開くと消える可能性があります。
+              </div>
+            </div>
+          </div>
+
+          <div class="rankStatusRow">
+            <p id="rankStatus" class="rankStatus">ランキングを読み込み中…</p>
+            <p class="rankHint">※写真タップでprofileが表示されます。</p>
+          </div>
+
+          <div style="overflow:auto;">
+            <table class="rankTable">
+              <thead>
+                <tr>
+                  <th class="rankNum">#</th>
+                  <th></th>
+                  <th class="rankVotes"></th>
+                </tr>
+              </thead>
+              <tbody id="rankTbody"></tbody>
+            </table>
+
+            <div id="rankMoreWrap" style="text-align:center; margin-top:12px; display:none;">
+              <button id="rankMoreBtn" class="btn" type="button">さらに表示</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="sub" style="margin-top:10px;">
+        ※ランキングは「ランキング画面」を開いた時に読み込みます
+      </div>
+    </div>
+  </div>
+
+  <div id="successModal" class="modalOverlay" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+      <div class="modalHead">
+        <p id="successTitle" class="modalTitle">送信完了</p>
+      </div>
+      <div class="modalBody">
+        <p class="modalMsg">投票を送信しました！</p>
+        <p class="modalSub">このままXの投稿画面へ飛べます（ハッシュタグ付き）。</p>
+
+        <div style="text-align:center; margin:14px 0;">
+          <div id="im-5506a71f463d44f6be371bd608fa6c81">
+            <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+            <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:84624,mid:591205,asid:1925444,type:"banner",display:"inline",elementid:"im-5506a71f463d44f6be371bd608fa6c81"})</script>
+          </div>
+        </div>
+
+        <div class="modalActions">
+          <a id="successXBtn" class="modalBtn primary" href="#" target="_blank" rel="noopener noreferrer">Xでシェア</a>
+          <button id="successOkBtn" class="modalBtn" type="button">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="welcomeModal" class="welcomeOverlay" aria-hidden="true">
+    <div class="welcomeCard" role="dialog" aria-modal="true">
+      <div class="welcomeTitle">日プ投票メーカーを作成したあがっしです。</div>
+
+      <div class="welcomeText">
+        サイト継続とやる気のために<br>
+        是非Tiktokのフォローお願いします🥺<br>
+        下のボタンからプロフィールに飛べるので<br>
+        是非フォローお願い致します❤️‍🔥❤️‍🔥
+      </div>
+
+      <a class="welcomeBtn"
+         href="https://www.tiktok.com/@12agassi"
+         target="_blank"
+         rel="noopener noreferrer">あがっしを応援する❤️‍🔥</a>
+
+      <button class="welcomeClose" type="button" onclick="closeWelcomeModal()">閉じる</button>
+    </div>
+  </div>
+
+<script>
+/* ======================
+   ランキングCSV URL
+====================== */
+const RANKING_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXFpCzSxBGA2HUi1iiTUAgbRTbKXn2StuWI-Og82Wcv1z02sAN5QMizZztFdC8-7He31T-ecZq8cPa/pub?gid=1769988094&single=true&output=csv";
+const RANKING_SHOW_TOP = 30;
+const RANKING_PAGE_SIZE = 30;
+
+/* ======================
+   Googleフォーム送信設定（1人版）
+====================== */
+const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLScTsG1FAAB-6qzmy4K8tWNBxlP-uS35KdM_zCwHutGhpU5D8A/formResponse";
+const ENTRY_USERKEY = "entry.1045542204";
+const ENTRY_DATE    = "entry.77733039";
+const ENTRY_VOTEID  = "entry.1011332617";
+const BLOCK_DUPLICATE_PER_DAY = true;
+
+/* ====== 練習生データ ====== */
+const traineesOnly = [
+  {name:"アダム・ナガイ(ADAM)", img:"https://i.imgur.com/6QGzvRx.png", id:"adamnagai"},
+  {name:"中丸 晏寿(AJU)", img:"https://i.imgur.com/KiZCKos.png", id:"nakamaruaju"},
+  {name:"オム・スアンカワーテン(AOM)", img:"https://i.imgur.com/dDIFJSc.png", id:"aomsuungkavathin"},
+  {name:"アーチャー・ウイ(ARCHER)", img:"https://i.imgur.com/5iIerqN.png", id:"archeruy"},
+  {name:"篠ヶ谷 歩夢(S.AYUMU)", img:"https://i.imgur.com/YJAdh8q.png", id:"shinogayaayumu"},
+  {name:"小林 千悟(CHISATO)", img:"https://i.imgur.com/Iu0hNBO.png", id:"kobayashichisato"},
+  {name:"加藤 大樹 (K.DAIKI)", img:"https://i.imgur.com/4fRk2EB.png", id:"katodaiki"},
+  {name:"カク・ドンミン(DONGMIN)", img:"https://i.imgur.com/xZSQqMh.png", id:"kwakdongmin"},
+  {name:"末川 瑛太(EITA)", img:"https://i.imgur.com/5aMVSc0.png", id:"suekawaeita"},
+  {name:"保里 瑛都(H.EITO)", img:"https://i.imgur.com/IAhs4ZA.png", id:"horieito"},
+  {name:"金田 栄都(K.EITO)", img:"https://i.imgur.com/tF7i1du.png", id:"kanedaeito"},
+  {name:"櫻井 楓真(FUMA)", img:"https://i.imgur.com/WIWI8Sx.png", id:"sakuraifuma"},
+  {name:"小笠原ジュゼッペ慧(GIUSEPPE)", img:"https://i.imgur.com/2oKn3Ma.jpeg", id:"ogasawaragiuseppekei"},
+  {name:"倉橋 吾槙(GOTEN)", img:"https://i.imgur.com/hlEjYqR.png", id:"kurahashigoten"},
+  {name:"堀尾 聖(HIJIRI)", img:"https://i.imgur.com/5Qb5dRJ.png", id:"horiohijiri"},
+  {name:"瑞慶覧 太都(HIROTO)", img:"https://i.imgur.com/siOPGIr.png", id:"zukeranhiroto"},
+  {name:"ユ・ヒョンスン(HYEONSEUNG)", img:"https://i.imgur.com/lY3lXLj.png", id:"yoohyeonseung"},
+  {name:"岡田 彪吾(HYUGO)", img:"https://i.imgur.com/zalwc1W.png", id:"okadahyugo"},
+  {name:"柳谷 伊冴(ISSA)", img:"https://i.imgur.com/gboCNWu.png", id:"yanagiyaissa"},
+  {name:"ユン・ジェヨン(JAEYONG)", img:"https://i.imgur.com/1yCImxd.png", id:"yoonjaeyong"},
+  {name:"ジュアン・ジェイ(JAY)", img:"https://i.imgur.com/41jKNZX.png", id:"chuangjay"},
+  {name:"丸尾 尋一郎(JINICHIRO)", img:"https://i.imgur.com/83azYjx.png", id:"maruojinichiro"},
+  {name:"河邊 晟(JOE)", img:"https://i.imgur.com/DqUS1o6.png", id:"kawabejoe"},
+  {name:"シン・ジョンウク(JUNGUK)", img:"https://i.imgur.com/6cwEusK.jpeg", id:"shinjunguk"},
+  {name:"金安 純正(JUNSEI)", img:"https://i.imgur.com/juPhMDR.png", id:"kaneyasujunsei"},
+  {name:"宇野 海夢(KAIMU)", img:"https://i.imgur.com/QVliSyD.png", id:"unokaimu"},
+  {name:"多比 奏聖(KANADE)", img:"https://i.imgur.com/rdSJ6QX.png", id:"tabikanade"},
+  {name:"横山 奏夢(KANAME)", img:"https://i.imgur.com/0brlEw8.png", id:"yokoyamakaname"},
+  {name:"関 敬次郎(KEIJIRO)", img:"https://i.imgur.com/PHlkDUt.png", id:"sekikeijiro"},
+  {name:"髙松 敬祐(KEISUKE)", img:"https://i.imgur.com/bs4vfiF.png", id:"takamatsukeisuke"},
+  {name:"小野 慶人(KEITO)", img:"https://i.imgur.com/glfmRJE.png", id:"onokeito"},
+  {name:"西山 賢人(KENTO)", img:"https://i.imgur.com/izEXoBY.png", id:"nishiyamakento"},
+  {name:"河合 晃誠(KOSEI)", img:"https://i.imgur.com/E30eGfr.png", id:"kawaikosei"},
+  {name:"照井 康祐(KOSUKE)", img:"https://i.imgur.com/oDkwdFn.png", id:"teruikosuke"},
+  {name:"浅香 孝太郎(KOTARO)", img:"https://i.imgur.com/7eJxl8o.png", id:"asakakotaro"},
+  {name:"髙谷 京平(KYOHEI)", img:"https://i.imgur.com/CLU1cPO.png", id:"takayakyohei"},
+  {name:"田中 蒔(MAKI)", img:"https://i.imgur.com/No6Nybr.png", id:"tanakamaki"},
+  {name:"山根 武蔵(MUSASHI)", img:"https://i.imgur.com/Ou2XuDa.png", id:"yamanemusashi"},
+  {name:"土田 央修(OSUKE)", img:"https://i.imgur.com/Xs0WjIn.png", id:"tsuchidaosuke"},
+  {name:"堀野 蓮(H.REN)", img:"https://i.imgur.com/FQEx0JM.png", id:"horinoren"},
+  {name:"小清水 蓮(KO.REN)", img:"https://i.imgur.com/S8Ij9OZ.png", id:"koshimizuren"},
+  {name:"チェン・リッキー(RICKEY)", img:"https://i.imgur.com/DnnZVAT.png", id:"chenrickey"},
+  {name:"神元 理丘(RIKU)", img:"https://i.imgur.com/jwJ9CLd.png", id:"kamimotoriku"},
+  {name:"鳩場 陸人(H.RIKUTO)", img:"https://i.imgur.com/JdCFbCb.png", id:"hatobarikuto"},
+  {name:"今江 陸斗(I.RIKUTO)", img:"https://i.imgur.com/jiZZwJu.png", id:"imaerikuto"},
+  {name:"甲斐 陸也(RIKUYA)", img:"https://i.imgur.com/lfiqB2f.png", id:"kairikuya"},
+  {name:"大瀬 凜和(RINTO)", img:"https://i.imgur.com/OT0UHId.png", id:"ohserinto"},
+  {name:"上野 琉偉(U.RUI)", img:"https://i.imgur.com/36XqMd9.png", id:"uenorui"},
+  {name:"飯塚 亮賀(RYOGA)", img:"https://i.imgur.com/ExbaI6W.png", id:"iizukaryoga"},
+  {name:"石田 亮太(RYOTA)", img:"https://i.imgur.com/Ctw95jF.png", id:"ishidaryota"},
+  {name:"岡戸 竜芽(RYUGA)", img:"https://i.imgur.com/fvfLKZj.png", id:"okadoryuga"},
+  {name:"杉山 竜司(RYUJI)", img:"https://i.imgur.com/NeB980M.png", id:"sugiyamaryuji"},
+  {name:"香月 誠太(SEITA)", img:"https://i.imgur.com/def6F6u.png", id:"katsukiseita"},
+  {name:"澤井 星名(SENA)", img:"https://i.imgur.com/Dpzzr9K.png", id:"sawaisena"},
+  {name:"オ・シンヘン(SHINHAENG)", img:"https://i.imgur.com/LH673dA.png", id:"ohshinhaeng"},
+  {name:"岩城 慎二(SHINJI)", img:"https://i.imgur.com/h5rDvjC.png", id:"iwakishinji"},
+  {name:"宮崎 真佑(SHINSUKE)", img:"https://i.imgur.com/xJuj9wW.png", id:"miyazakishinsuke"},
+  {name:"西﨑 柊(N.SHU)", img:"https://i.imgur.com/OZrHFUX.png", id:"nishizakishu"},
+  {name:"山下 柊(Y.SHU)", img:"https://i.imgur.com/642IX8o.png", id:"yamashitashu"},
+  {name:"パク・シヨン(SIYOUNG)", img:"https://i.imgur.com/wSokxJh.png", id:"parksiyoung"},
+  {name:"佐藤 碧空 (S.SORA)", img:"https://i.imgur.com/yF4WJJB.png", id:"satosora"},
+  {name:"東野 蒼汰(SOTA)", img:"https://i.imgur.com/GvLpwfo.png", id:"tonosota"},
+  {name:"藤牧 大雅(F.TAIGA)", img:"https://i.imgur.com/4G2hBRy.png", id:"fujimakitaiga"},
+  {name:"松田 太雅(M.TAIGA)", img:"https://i.imgur.com/tICsJFs.png", id:"matsudataiga"},
+  {name:"金倉 拓未(TAKUMI)", img:"https://i.imgur.com/O3gluG7.png", id:"kanakuratakumi"},
+  {name:"熊部 拓斗(K.TAKUTO)", img:"https://i.imgur.com/NaQURc7.png", id:"kumabetakuto"},
+  {name:"宮里 拓利(M.TAKUTO)", img:"https://i.imgur.com/5B8NMyF.png", id:"miyazatotakuto"},
+  {name:"南平 達矢(TATSUYA)", img:"https://i.imgur.com/jHnmGTs.png", id:"minamihiratatsuya"},
+  {name:"森井 輝(TERU)", img:"https://i.imgur.com/SAo1Rs4.png", id:"moriiteru"},
+  {name:"北林 天虎(TETORA)", img:"https://i.imgur.com/2gCwqHF.png", id:"kitabayashitetora"},
+  {name:"藤芳 辰弥(TOKIYA)", img:"https://i.imgur.com/9prpjvI.png", id:"fujiyoshitokiya"},
+  {name:"増田 倫希(TOMOKI)", img:"https://i.imgur.com/4JSh3HD.png", id:"masudatomoki"},
+  {name:"濱田 永遠(TOWA)", img:"https://i.imgur.com/Yap9beM.png", id:"hamadatowa"},
+  {name:"アギナルド・トリスタン・ジェームス(TRISTAN)", img:"https://i.imgur.com/wyeHbRo.png", id:"aguinaldotristanjames"},
+  {name:"リー・ウェイゼ(WEIZE)", img:"https://i.imgur.com/XNeHaaX.png", id:"liweize"},
+  {name:"ヨハン・エマニュエル(YOHAN)", img:"https://i.imgur.com/RTVMTCA.png", id:"yohanemmanuel"},
+  {name:"矢田 佳暉(YOSHIKI)", img:"https://i.imgur.com/MZbSVDq.png", id:"yadayoshiki"},
+  {name:"後藤 結(YUKI)", img:"https://i.imgur.com/GZTdD57.png", id:"gotoyuki"},
+  {name:"岡田 侑磨(YUMA)", img:"https://i.imgur.com/3hhNQLj.png", id:"okadayuma"},
+  {name:"安部 結蘭(YURA)", img:"https://i.imgur.com/pbC301p.png", id:"abeyura"},
+  {name:"大林 悠成(O.YUSEI)", img:"https://i.imgur.com/tp1fKqI.png", id:"obayashiyusei"},
+  {name:"佐野 由征(S.YUSEI)", img:"https://i.imgur.com/fDql5Tu.png", id:"sanoyusei"},
+  {name:"板倉 悠太(YUTA)", img:"https://i.imgur.com/j6IlxeD.png", id:"itakurayuta"}
+];
+
+const candidates = [
+  {name:"本荘 晃(AKIRA)", img:"https://i.imgur.com/p976l8j.jpeg", id:"honjoakira"},
+  {name:"児島 歩夢(K.AYUMU)", img:"https://i.imgur.com/1jtcgbB.png", id:"kojimaayumu"},
+  {name:"市川 大輝(I.DAIKI)", img:"https://i.imgur.com/72FqxLz.png", id:"ichikawadaiki"},
+  {name:"川村 珀斗(HAKUTO)", img:"https://i.imgur.com/ua7RMig.png", id:"kawamurahakuto"},
+  {name:"村松 遼空(HARUKU)", img:"https://i.imgur.com/3JEtKs6.png", id:"muramatsuharuku"},
+  {name:"髙城 暖人(HARUTO)", img:"https://i.imgur.com/qdXIOpr.png", id:"takagiharuto"},
+  {name:"平島 輝(H.HIKARU)", img:"https://i.imgur.com/P5gzRZh.png", id:"hirashimahikaru"},
+  {name:"櫻井 輝(S.HIKARU)", img:"https://i.imgur.com/h2fBMUv.png", id:"sakuraihikaru"},
+  {name:"佐川 太一(HIROKAZU)", img:"https://i.imgur.com/IlVBYXs.png", id:"sagawahirokazu"},
+  {name:"イ・ヒョンジェ(HYUNJAE)", img:"https://i.imgur.com/wOhvKDu.png", id:"leehyunjae"},
+  {name:"阿部 樹(ITSUKI)", img:"https://i.imgur.com/TaTAc2L.png", id:"abeitsuki"},
+  {name:"イ・ジュンフン(JOONGHOON)", img:"https://i.imgur.com/4utwyOJ.png", id:"leejoonghoon"},
+  {name:"リュウ・カイチ(KAICHI)", img:"https://i.imgur.com/FGbdGcI.png", id:"liukaichi"},
+  {name:"黒﨑 貫汰(KANTA)", img:"https://i.imgur.com/j75eoO7.png", id:"kurosakikanta"},
+  {name:"黄 敬眞(KEISHIN)", img:"https://i.imgur.com/oE7w4D7.png", id:"kokeishin"},
+  {name:"釼持 吉成(KINARI)", img:"https://i.imgur.com/GWAtiwS.png", id:"kenmotsukinari"},
+  {name:"小澤 昂心(KOSHIN)", img:"https://i.imgur.com/pn0zB7F.png", id:"ozawakoshin"},
+  {name:"青沼 昂史朗(KOSHIRO)", img:"https://i.imgur.com/MDhTcs8.png", id:"aonumakoshiro"},
+  {name:"小林 廣(KOU)", img:"https://i.imgur.com/RAoUIhC.png", id:"kobayashikou"},
+  {name:"森 明育(MEI)", img:"https://i.imgur.com/eR0BZVs.png", id:"morimei"},
+  {name:"マイケル ミン・マカフリ(MICHAEL MINH)", img:"https://i.imgur.com/6S8BWAA.png", id:"michaelminhmccaffrey"},
+  {name:"パトリック ファン・レ(PATRICK)", img:"https://i.imgur.com/YRvJQYc.png", id:"patrickphanle"},
+  {name:"笠原 蓮(KA.REN)", img:"https://i.imgur.com/ZLgNm7o.png", id:"kasahararen"},
+  {name:"江口 蓮翔(E.RENTO)", img:"https://i.imgur.com/ewXd8NH.png", id:"eguchirento"},
+  {name:"小林 蓮翔(K.RENTO)", img:"https://i.imgur.com/t2NbxIU.png", id:"kobayashirento"},
+  {name:"落合 利温(RIO)", img:"https://i.imgur.com/HdTZUdu.png", id:"ochiairio"},
+  {name:"水上 琉偉(M.RUI)", img:"https://i.imgur.com/DiUA9bw.png", id:"mizugamirui"},
+  {name:"小谷内 瑠嘉(RUKA)", img:"https://i.imgur.com/V2XnsQ6.png", id:"koyauchiruka"},
+  {name:"齊藤 惺(SEI)", img:"https://i.imgur.com/9HIRvNd.png", id:"saitosei"},
+  {name:"藤本 真成(SHINSEI)", img:"https://i.imgur.com/qTooOuS.png", id:"fujimotoshinsei"},
+  {name:"飯田 柊馬(SHUMA)", img:"https://i.imgur.com/awBBn6j.png", id:"iidashuma"},
+  {name:"松田 颯吾(SOGO)", img:"https://i.imgur.com/Y1MQK3k.png", id:"matsudasogo"},
+  {name:"髙橋 空良(T.SORA)", img:"https://i.imgur.com/czFpgjm.png", id:"takahashisora"},
+  {name:"西田 颯梓(SOSHI)", img:"https://i.imgur.com/51RMIB6.png", id:"nishidasoshi"},
+  {name:"岡本 拓士(O.TAKUTO)", img:"https://i.imgur.com/TGP6sbe.png", id:"okamototakuto"},
+  {name:"大澤 佑冴(YUGO)", img:"https://i.imgur.com/5Gg1E1M.png", id:"osawayugo"},
+  {name:"藤井 雄聖(F.YUSEI)", img:"https://i.imgur.com/prsNOtG.png", id:"fujiiyusei"},
+  {name:"岡本 佑斗(YUTO)", img:"https://i.imgur.com/lzv8Vu5.png", id:"okamotoyuto"}
+];
+
+const MAX = 1;
+
+const WITHDRAWN_IDS = new Set([
+  "horieito",
+  "sakuraihikaru"
+]);
+
+const LS_FAVORITES_KEY = "vote_favorites_v1";
+
+/* ===== UI elements (vote) ===== */
+const toggleBtn = document.getElementById("toggleBtn");
+const modeText  = document.getElementById("modeText");
+const searchEl  = document.getElementById("search");
+const gridEl    = document.getElementById("grid");
+const slotsEl   = document.getElementById("slots");
+const countEl   = document.getElementById("count");
+const voteBtn   = document.getElementById("voteBtn");
+const clearBtn  = document.getElementById("clearBtn");
+const undoBtn   = document.getElementById("undoBtn");
+const prevVoteBtn = document.getElementById("prevVoteBtn");
+const resultCountEl = document.getElementById("resultCount");
+
+/* ===== Xシェア ===== */
+const shareWrap = document.getElementById("shareWrap");
+const xShareBtn = document.getElementById("xShareBtn");
+
+/* ===== UI elements (ranking) ===== */
+const rankTbody = document.getElementById("rankTbody");
+const rankStatus = document.getElementById("rankStatus");
+const rankUpdated = document.getElementById("rankUpdated");
+const rankOpenSheet = document.getElementById("rankOpenSheet");
+
+/* ===== さらに表示 ===== */
+const rankMoreWrap = document.getElementById("rankMoreWrap");
+const rankMoreBtn  = document.getElementById("rankMoreBtn");
+
+/* ===== view switch ===== */
+const btnVote = document.getElementById("btnVote");
+const btnRank = document.getElementById("btnRank");
+const voteView = document.getElementById("voteView");
+const rankView = document.getElementById("rankView");
+
+/* ===== state ===== */
+let showCandidates = false;
+let selected = [];
+let selectedSet = new Set();
+let lastActionStack = [];
+
+let rankTimer = null;
+let hasLoadedRankOnce = false;
+
+let rankAllData = [];
+let rankVisibleCount = RANKING_SHOW_TOP;
+
+/* ===== 投票完了モーダル ===== */
+const successModal  = document.getElementById("successModal");
+const successXBtn   = document.getElementById("successXBtn");
+const successOkBtn  = document.getElementById("successOkBtn");
+const successCloseX = document.getElementById("successCloseX");
+
+function openSuccessModal(){
+  if(!successModal) return;
+  if(successXBtn) successXBtn.href = buildXIntentURL();
+  successModal.classList.add("open");
+  successModal.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+}
+function closeSuccessModal(){
+  if(!successModal) return;
+  successModal.classList.remove("open");
+  successModal.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+if(successOkBtn) successOkBtn.addEventListener("click", closeSuccessModal);
+if(successCloseX) successCloseX.addEventListener("click", closeSuccessModal);
+if(successModal){
+  successModal.addEventListener("click", (e) => {
+    if(e.target === successModal) closeSuccessModal();
+  });
+}
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape" && successModal && successModal.classList.contains("open")){
+    closeSuccessModal();
+  }
+});
+
+/* ===== X投稿リンク ===== */
+function buildXIntentURL(){
+  const text =
+`あなたの1票が未来を変える🔥
+
+推しに今日も投票完了🗳️✨
+まだの人は今すぐ参加してね！
+
+#日プ新世界 #日プ投票メーカー #PRODUCE101JAPAN新世界
+※非公式ファン投票です`;
+  const url = location.href;
+  return "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(url);
+}
+
+/* ==== 検索強化 ==== */
+function normalizeText(s){
+  return (s || "")
+    .toString()
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[\s\.\-_/()（）]/g,"");
+}
+function buildSearchKey(t){
+  return [t.name || "", t.id || ""].map(normalizeText).join(" ");
+}
+
+const trainees = traineesOnly.map(x => ({...x, group:"trainee", searchKey: buildSearchKey(x)}));
+const candis = candidates.map(x => ({...x, group:"candidate", searchKey: buildSearchKey(x)}));
+const byId = new Map([...trainees, ...candis].map(x => [x.id, x]));
+
+/* ===== お気に入り機能 ===== */
+function safeJSONParse(s, fallback){
+  try{ return JSON.parse(s); }catch(_){ return fallback; }
+}
+function getFavoriteIds(){
+  const ids = safeJSONParse(localStorage.getItem(LS_FAVORITES_KEY) || "[]", []);
+  return Array.isArray(ids) ? ids : [];
+}
+function setFavoriteIds(ids){
+  localStorage.setItem(LS_FAVORITES_KEY, JSON.stringify(ids || []));
+}
+function favoriteSet(){
+  return new Set(getFavoriteIds());
+}
+function toggleFavorite(id){
+  const ids = getFavoriteIds();
+  const set = new Set(ids);
+  if(set.has(id)) set.delete(id);
+  else set.add(id);
+  setFavoriteIds([...set]);
+}
+function sortFavoritesFirst(list){
+  const favs = favoriteSet();
+  const favorites = [];
+  const others = [];
+  for(const item of list){
+    if(favs.has(item.id)) favorites.push(item);
+    else others.push(item);
+  }
+  return [...favorites, ...others];
+}
+
+/* ===== マイ投票 ===== */
+const LS_TODAY_PREFIX = "vote_my_today_v1:";
+const LS_COUNTS_KEY   = "vote_my_counts_v1";
+const LS_TOTALSUB_KEY = "vote_my_totalSub_v1";
+const LS_PREV_VOTE_KEY = "vote_prev_vote_v1";
+
+const btnMyToday  = document.getElementById("btnMyToday");
+const btnMyTotal  = document.getElementById("btnMyTotal");
+const panelMyToday = document.getElementById("panelMyToday");
+const panelMyTotal = document.getElementById("panelMyTotal");
+const myTodayMeta = document.getElementById("myTodayMeta");
+const myTotalMeta = document.getElementById("myTotalMeta");
+const myTodayGrid = document.getElementById("myTodayGrid");
+const myTotalGrid = document.getElementById("myTotalGrid");
+const myTop3El    = document.getElementById("myTop3");
+
+function getCounts(){
+  return safeJSONParse(localStorage.getItem(LS_COUNTS_KEY) || "{}", {});
+}
+function setCounts(obj){
+  localStorage.setItem(LS_COUNTS_KEY, JSON.stringify(obj || {}));
+}
+function getTotalSub(){
+  return Number(localStorage.getItem(LS_TOTALSUB_KEY) || "0") || 0;
+}
+function setTotalSub(n){
+  localStorage.setItem(LS_TOTALSUB_KEY, String(Number(n || 0)));
+}
+function getTodayIds(dateStr){
+  const key = LS_TODAY_PREFIX + dateStr;
+  const v = safeJSONParse(localStorage.getItem(key) || "null", null);
+  return Array.isArray(v) ? v : null;
+}
+function setTodayIds(dateStr, ids){
+  const key = LS_TODAY_PREFIX + dateStr;
+  localStorage.setItem(key, JSON.stringify(ids || []));
+}
+
+function personInfo(id){
+  const p = byId.get(id);
+  const name = p ? (p.name || id) : id;
+  const img = p ? (p.img || "") : "";
+  const disp = name.split("(")[0];
+  return { id, name, disp, img };
+}
+
+function buildMyItemHTML(info, countText, badgeText){
+  const safeImg = info.img || "";
+  const safeName = (info.disp || info.name || info.id);
+  const badge = badgeText ? `<span class="myRankBadge">${badgeText}</span>` : "";
+  return `
+    <div class="myItem">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <div style="min-width:0; font-weight:1000; font-size:12px; color:#111; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+          ${safeName}
+        </div>
+        ${badge}
+      </div>
+      <div class="myThumb" style="margin-top:8px;">
+        ${safeImg ? `<img src="${safeImg}" alt="">` : ``}
+      </div>
+      <div class="myCount">${countText || ""}</div>
+    </div>
+  `;
+}
+
+function refreshMyToday(){
+  const date = todayTokyo();
+  const ids = getTodayIds(date);
+
+  if(!myTodayGrid || !myTodayMeta) return;
+
+  if(!ids || ids.length === 0){
+    myTodayMeta.textContent = `今日(${date})の投票はまだ保存されていません`;
+    myTodayGrid.innerHTML = "";
+    return;
+  }
+
+  myTodayMeta.textContent = `今日(${date})の投票：${ids.length}人`;
+  myTodayGrid.innerHTML = ids.map(id => {
+    const info = personInfo(id);
+    return buildMyItemHTML(info, "", "");
+  }).join("");
+}
+
+function refreshMyTotal(){
+  const counts = getCounts();
+  const totalSub = getTotalSub();
+
+  if(!myTotalGrid || !myTotalMeta || !myTop3El) return;
+
+  const entries = Object.entries(counts)
+    .map(([id, c]) => ({ id, count: Number(c)||0 }))
+    .filter(x => x.count > 0);
+
+  myTotalMeta.textContent = totalSub > 0
+    ? `これまでの投票回数：${totalSub}回`
+    : "累計はまだありません";
+
+  if(entries.length === 0){
+    myTop3El.innerHTML = "";
+    myTotalGrid.innerHTML = "";
+    return;
+  }
+
+  const topSorted = [...entries].sort((a,b) => b.count - a.count || a.id.localeCompare(b.id));
+  const top3 = topSorted.slice(0,3);
+
+  myTop3El.innerHTML = top3.map((x, i) => {
+    const info = personInfo(x.id);
+    return buildMyItemHTML(info, `${x.count}回`, String(i+1));
+  }).join("");
+
+  const rest = topSorted.slice(3).map(x => ({
+    ...x,
+    disp: personInfo(x.id).disp
+  })).sort((a,b) => (a.disp||a.id).localeCompare(b.disp||b.id, "ja"));
+
+  myTotalGrid.innerHTML = rest.map(x => {
+    const info = personInfo(x.id);
+    return buildMyItemHTML(info, `${x.count}回`, "");
+  }).join("");
+}
+
+function closeMyPanels(){
+  if(btnMyToday) btnMyToday.classList.remove("active");
+  if(btnMyTotal) btnMyTotal.classList.remove("active");
+  if(panelMyToday) panelMyToday.classList.remove("active");
+  if(panelMyTotal) panelMyTotal.classList.remove("active");
+}
+function togglePanel(which){
+  if(which === "today"){
+    const willOpen = !(panelMyToday && panelMyToday.classList.contains("active"));
+    closeMyPanels();
+    if(willOpen){
+      if(btnMyToday) btnMyToday.classList.add("active");
+      if(panelMyToday) panelMyToday.classList.add("active");
+      refreshMyToday();
+    }
+  } else {
+    const willOpen = !(panelMyTotal && panelMyTotal.classList.contains("active"));
+    closeMyPanels();
+    if(willOpen){
+      if(btnMyTotal) btnMyTotal.classList.add("active");
+      if(panelMyTotal) panelMyTotal.classList.add("active");
+      refreshMyTotal();
+    }
+  }
+}
+if(btnMyToday) btnMyToday.addEventListener("click", () => togglePanel("today"));
+if(btnMyTotal) btnMyTotal.addEventListener("click", () => togglePanel("total"));
+
+function saveMyVote(ids, dateStr){
+  const savedIds = ids.slice(0, MAX);
+  setTodayIds(dateStr, savedIds);
+  localStorage.setItem(LS_PREV_VOTE_KEY, JSON.stringify(savedIds));
+
+  const counts = getCounts();
+  for(const id of savedIds){
+    counts[id] = (Number(counts[id]) || 0) + 1;
+  }
+  setCounts(counts);
+
+  setTotalSub(getTotalSub() + 1);
+}
+
+/* ==== scroll位置保持 ==== */
+function preserveScroll(fn){
+  const y = window.scrollY;
+  fn();
+  requestAnimationFrame(() => window.scrollTo(0, y));
+}
+
+/* ==== 表示モード ==== */
+function currentList(){ return showCandidates ? candis : trainees; }
+function setModeUI(){
+  modeText.textContent = showCandidates ? "練習生候補" : "練習生";
+  toggleBtn.classList.toggle("on", !showCandidates);
+}
+
+/* ==== 上の1枠 ==== */
+function renderSlots(){
+  slotsEl.innerHTML = "";
+  for(let i=0;i<MAX;i++){
+    const id = selected[i];
+    const slot = document.createElement("div");
+    slot.className = "slot" + (id ? " filled" : "");
+    if(id) slot.setAttribute("data-id", id);
+
+    if(id){
+      const t = byId.get(id);
+      slot.innerHTML = `<img src="${t?.img || ""}" alt="">`;
+      slot.title = "タップで削除";
+    } else {
+      slot.textContent = "+";
+    }
+    slotsEl.appendChild(slot);
+  }
+}
+slotsEl.addEventListener("click", (e) => {
+  const slot = e.target.closest(".slot.filled");
+  if(!slot) return;
+  const id = slot.getAttribute("data-id");
+  if(!id) return;
+  removeSelected(id);
+});
+
+/* ==== 一覧 ==== */
+function renderGrid(){
+  const qRaw = searchEl.value.trim();
+  const q = normalizeText(qRaw);
+
+  const filtered = currentList().filter(t => {
+    if(!q) return true;
+    const rawHit =
+      (t.name || "").toLowerCase().includes(qRaw.toLowerCase()) ||
+      (t.id || "").toLowerCase().includes(qRaw.toLowerCase());
+    const keyHit = (t.searchKey || "").includes(q);
+    return rawHit || keyHit;
+  });
+
+  const list = sortFavoritesFirst(filtered);
+
+  resultCountEl.textContent = `${list.length}件`;
+  gridEl.innerHTML = "";
+
+  const favs = favoriteSet();
+
+  for(const t of list){
+    const picked = selectedSet.has(t.id);
+    const withdrawn = WITHDRAWN_IDS.has(t.id);
+    const favorite = favs.has(t.id);
+
+    const card = document.createElement("div");
+    card.className = "card"
+      + (picked ? " picked" : "")
+      + (withdrawn ? " withdrawn" : "");
+    card.setAttribute("data-id", t.id);
+
+    card.innerHTML = `
+      <div class="avatar">
+        <img src="${t.img}" alt="">
+        <button class="favBtn${favorite ? " active" : ""}" type="button" data-fav-btn="1" aria-label="お気に入り">★</button>
+        <a class="profileBtn"
+           href="https://produce101.jp/profile/detail/?id=${encodeURIComponent(t.id)}"
+           target="_blank" rel="noopener noreferrer"
+           data-profile-link="1">profile</a>
+      </div>
+      <div class="info">
+        <div class="name">${t.name}</div>
+        <div class="meta">${showCandidates ? "練習生候補" : "練習生"}</div>
+      </div>
+    `;
+    gridEl.appendChild(card);
+  }
+}
+gridEl.addEventListener("click", (e) => {
+  if (e.target.closest('[data-profile-link="1"]')) return;
+
+  const favBtn = e.target.closest('[data-fav-btn="1"]');
+  if(favBtn){
+    e.preventDefault();
+    e.stopPropagation();
+    const card = e.target.closest(".card");
+    if(!card) return;
+    const id = card.getAttribute("data-id");
+    if(!id) return;
+    preserveScroll(() => {
+      toggleFavorite(id);
+      renderGrid();
+    });
+    return;
+  }
+
+  const card = e.target.closest(".card");
+  if(!card) return;
+  const id = card.getAttribute("data-id");
+  if(!id) return;
+
+  preserveScroll(() => {
+    if(selectedSet.has(id)) removeSelected(id);
+    else addSelected(id);
+  });
+});
+
+/* ==== 選択処理 ==== */
+function addSelected(id){
+  if(WITHDRAWN_IDS.has(id)) return;
+
+  if(selectedSet.has(id)) return;
+  if(selected.length >= MAX){
+    alert(`最大${MAX}人までです`);
+    return;
+  }
+  selected.push(id);
+  selectedSet.add(id);
+  lastActionStack.push({type:"add", id});
+  updateAll();
+}
+function removeSelected(id){
+  if(!selectedSet.has(id)) return;
+  selected = selected.filter(x => x !== id);
+  selectedSet.delete(id);
+  lastActionStack.push({type:"remove", id});
+  updateAll();
+}
+function undo(){
+  const last = lastActionStack.pop();
+  if(!last) return;
+  if(last.type === "add"){
+    selected = selected.filter(x => x !== last.id);
+    selectedSet.delete(last.id);
+  } else {
+    if(selected.length < MAX && !selectedSet.has(last.id)){
+      selected.push(last.id);
+      selectedSet.add(last.id);
+    }
+  }
+  updateAll();
+}
+function clearAll(){
+  selected = [];
+  selectedSet.clear();
+  lastActionStack = [];
+  updateAll();
+}
+function loadPreviousVote(){
+  const prev = safeJSONParse(localStorage.getItem(LS_PREV_VOTE_KEY) || "[]", []);
+  if(!Array.isArray(prev) || prev.length !== MAX){
+    alert("前回の投票データがありません。");
+    return;
+  }
+
+  const validIds = prev.filter(id => byId.has(id) && !WITHDRAWN_IDS.has(id)).slice(0, MAX);
+
+  if(validIds.length !== MAX){
+    alert("前回の投票データに現在選択できない練習生が含まれています。");
+    return;
+  }
+
+  selected = [...validIds];
+  selectedSet = new Set(validIds);
+  lastActionStack = [];
+  updateAll();
+}
+
+/* ==== 日付（Tokyo） ==== */
+function todayTokyo(){
+  return new Date().toLocaleDateString("en-CA", { timeZone:"Asia/Tokyo" });
+}
+
+/* ==== userKey ==== */
+function getOrCreateUserKey(){
+  const keyName = "vote_userKey_v1";
+  let k = localStorage.getItem(keyName);
+  if(!k){
+    const rand = (crypto?.randomUUID?.() || (Math.random().toString(16).slice(2) + Date.now().toString(16)));
+    k = "u_" + rand.slice(0, 12);
+    localStorage.setItem(keyName, k);
+  }
+  return k;
+}
+
+/* ==== 二重送信ブロック ==== */
+function lastVoteToken(){
+  return localStorage.getItem("vote_lastToken_v1") || "";
+}
+function setLastVoteToken(token){
+  localStorage.setItem("vote_lastToken_v1", token);
+}
+
+/* ==== 送信 ==== */
+async function submitToGoogleForm(){
+  if(selected.length !== MAX){
+    alert(`1人選んでから投票してください`);
+    return;
+  }
+
+  const userKey = getOrCreateUserKey();
+  const date = todayTokyo();
+  const token = `${userKey}|${date}`;
+
+  if(BLOCK_DUPLICATE_PER_DAY && lastVoteToken() === token){
+    alert("この端末では今日すでに投票済みです。");
+    return;
+  }
+
+  const fd = new FormData();
+  fd.append(ENTRY_USERKEY, userKey);
+  fd.append(ENTRY_DATE, date);
+  fd.append(ENTRY_VOTEID, selected[0]);
+
+  try{
+    voteBtn.disabled = true;
+    voteBtn.textContent = "送信中…";
+
+    await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
+
+    if(BLOCK_DUPLICATE_PER_DAY) setLastVoteToken(token);
+
+    saveMyVote(selected.slice(0, MAX), date);
+
+    openSuccessModal();
+
+    if(shareWrap && xShareBtn){
+      xShareBtn.href = buildXIntentURL();
+      shareWrap.style.display = "none";
+    }
+
+    clearAll();
+
+    if(rankView.classList.contains("active")){
+      refreshMyToday();
+      refreshMyTotal();
+      fetchRankingCSV();
+    }
+  }catch(err){
+    console.error(err);
+    alert("送信に失敗しました。\nネット接続やブラウザ設定を確認してください。");
+  }finally{
+    updateAll();
+  }
+}
+
+/* ==== 更新 ==== */
+function updateAll(){
+  countEl.textContent = String(selected.length);
+  voteBtn.disabled = selected.length !== MAX;
+  voteBtn.textContent = (selected.length === MAX) ? "投票する" : `あと ${MAX - selected.length} 人`;
+  renderSlots();
+  renderGrid();
+}
+
+/* ==== UIイベント ==== */
+toggleBtn.addEventListener("click", () => {
+  preserveScroll(() => {
+    showCandidates = !showCandidates;
+    setModeUI();
+    renderGrid();
+  });
+});
+searchEl.addEventListener("input", () => preserveScroll(() => renderGrid()));
+undoBtn.addEventListener("click", () => preserveScroll(() => undo()));
+if(prevVoteBtn) prevVoteBtn.addEventListener("click", () => preserveScroll(() => loadPreviousVote()));
+clearBtn.addEventListener("click", () => {
+  if(!confirm("選択をリセットしますか？")) return;
+  preserveScroll(() => clearAll());
+});
+voteBtn.addEventListener("click", () => submitToGoogleForm());
+
+/* ======================
+   ランキングCSV読み込み
+====================== */
+rankOpenSheet.href = RANKING_CSV_URL;
+
+function parseCSV(text){
+  const rows = [];
+  let row = [];
+  let cur = "";
+  let inQuotes = false;
+
+  for(let i=0;i<text.length;i++){
+    const ch = text[i];
+    const next = text[i+1];
+
+    if(ch === '"'){
+      if(inQuotes && next === '"'){ cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+      continue;
+    }
+    if(!inQuotes && ch === ","){ row.push(cur); cur=""; continue; }
+    if(!inQuotes && (ch === "\n" || ch === "\r")){
+      if(ch === "\r" && next === "\n") i++;
+      row.push(cur); rows.push(row);
+      row=[]; cur="";
+      continue;
+    }
+    cur += ch;
+  }
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+function nowTokyoTime(){
+  return new Date().toLocaleString("ja-JP", { timeZone:"Asia/Tokyo" });
+}
+function buildRankingLink(id){
+  return `https://produce101.jp/profile/detail/?id=${encodeURIComponent(id)}`;
+}
+
+function renderRanking(){
+  const list = rankAllData.slice(0, rankVisibleCount);
+  const frag = document.createDocumentFragment();
+
+  let prevVotes = null;
+  let prevRank = 0;
+
+  list.forEach((x, i) => {
+    const tr = document.createElement("tr");
+
+    let shownRank;
+    if (prevVotes !== null && x.votes === prevVotes) {
+      shownRank = prevRank;
+    } else {
+      shownRank = i + 1;
+      prevRank = shownRank;
+      prevVotes = x.votes;
+    }
+
+    const person = byId.get(x.id);
+    const imgUrl = person ? person.img : "";
+    const dispName = person ? person.name.split("(")[0] : x.id;
+
+    tr.innerHTML = `
+      <td class="rankNum">${shownRank}</td>
+      <td>
+        <div class="rankLeft">
+          <a class="rankThumbLink"
+             href="${buildRankingLink(x.id)}"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="profile">
+            <img class="rankThumb"
+                 src="${imgUrl}"
+                 alt=""
+                 onerror="this.style.display='none'">
+          </a>
+          <div class="rankName">${dispName}</div>
+        </div>
+      </td>
+      <td class="rankVotes">${x.votes}票</td>
+    `;
+    frag.appendChild(tr);
+  });
+
+  rankTbody.innerHTML = "";
+  rankTbody.appendChild(frag);
+
+  const total = rankAllData.length;
+  const shown = Math.min(rankVisibleCount, total);
+
+  rankStatus.textContent = total <= 0 ? "データがありません" : `表示中: ${shown} / 全${total}件`;
+
+  if(rankMoreWrap && rankMoreBtn){
+    if(shown < total){
+      rankMoreWrap.style.display = "block";
+      const left = total - shown;
+      const add = Math.min(RANKING_PAGE_SIZE, left);
+      rankMoreBtn.textContent = `さらに表示（+${add}）`;
+    } else {
+      rankMoreWrap.style.display = "none";
+    }
+  }
+}
+
+async function fetchRankingCSV(){
+  try{
+    rankStatus.textContent = "ランキングを読み込み中…";
+    rankUpdated.textContent = "読み込み中…";
+    rankTbody.innerHTML = "";
+    if(rankMoreWrap) rankMoreWrap.style.display = "none";
+
+    rankVisibleCount = RANKING_SHOW_TOP;
+
+    const url = RANKING_CSV_URL + "&_ts=" + Date.now();
+    const res = await fetch(url, { method:"GET", cache:"no-store" });
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    const text = await res.text();
+
+    const rows = parseCSV(text)
+      .map(r => r.map(x => (x ?? "").toString().trim()))
+      .filter(r => r.some(x => x !== ""));
+
+    if(rows.length < 2) throw new Error("CSVが空っぽ");
+
+    const header = rows[0].map(h => h.toLowerCase());
+    const idxId = header.indexOf("id");
+    const idxVotes = header.indexOf("votes");
+    const idxRank = header.indexOf("rank");
+
+    if(idxId === -1 || idxVotes === -1) throw new Error("CSV列名が違う（id/votes無し）");
+
+    const data = rows.slice(1).map(r => ({
+      id: r[idxId] || "",
+      votes: Number((r[idxVotes] || "0").replace(/[^\d\-]/g,"")) || 0,
+      rank: idxRank !== -1 ? (Number((r[idxRank] || "").replace(/[^\d\-]/g,"")) || null) : null
+    })).filter(x => x.id);
+
+    data.sort((a,b) => {
+      if(a.rank != null && b.rank != null) return a.rank - b.rank;
+      if(b.votes !== a.votes) return b.votes - a.votes;
+      return a.id.localeCompare(b.id);
+    });
+
+    rankAllData = data;
+    renderRanking();
+
+    rankUpdated.textContent = `更新: ${nowTokyoTime()}`;
+    hasLoadedRankOnce = true;
+
+  }catch(err){
+    console.error(err);
+    rankStatus.textContent = "ランキングの読み込みに失敗…（公開設定/URL/ネットを確認してね）";
+    rankUpdated.textContent = "更新: 失敗";
+    if(rankMoreWrap) rankMoreWrap.style.display = "none";
+  }
+}
+
+if(rankMoreBtn){
+  rankMoreBtn.addEventListener("click", () => {
+    const total = rankAllData.length;
+    if(total <= 0) return;
+    rankVisibleCount = Math.min(rankVisibleCount + RANKING_PAGE_SIZE, total);
+    renderRanking();
+  });
+}
+
+/* ======================
+   画面切替
+====================== */
+function showVote(){
+  voteView.classList.add("active");
+  rankView.classList.remove("active");
+  btnVote.classList.add("active");
+  btnRank.classList.remove("active");
+
+  if(rankTimer){ clearInterval(rankTimer); rankTimer = null; }
+  window.scrollTo(0,0);
+}
+function showRank(){
+  rankView.classList.add("active");
+  voteView.classList.remove("active");
+  btnRank.classList.add("active");
+  btnVote.classList.remove("active");
+
+  refreshMyToday();
+  refreshMyTotal();
+
+  fetchRankingCSV();
+
+  if(rankTimer){ clearInterval(rankTimer); }
+  rankTimer = setInterval(fetchRankingCSV, 30000);
+
+  window.scrollTo(0,0);
+}
+
+btnVote.addEventListener("click", showVote);
+btnRank.addEventListener("click", showRank);
+
+/* 初期描画 */
+setModeUI();
+renderSlots();
+renderGrid();
+updateAll();
+
+/* ===== 初回訪問ポップアップ ===== */
+function closeWelcomeModal(){
+  const modal = document.getElementById("welcomeModal");
+  if(modal){
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden","true");
+    localStorage.setItem("welcomeShown_v1","1");
+  }
+}
+window.addEventListener("load", () => {
+  const shown = localStorage.getItem("welcomeShown_v1");
+  const modal = document.getElementById("welcomeModal");
+  if(modal && !shown){
+    modal.style.display = "flex";
+    modal.setAttribute("aria-hidden","false");
+  }
+});
+</script>
+
+<div style="text-align:center; font-size:12px; opacity:0.6; margin-top:60px;">
+  <a href="./about.html" style="text-decoration:none; color:inherit;">About</a> |
+  <a href="./privacy.html" style="text-decoration:none; color:inherit;">Privacy</a> |
+  <a href="./contact.html" style="text-decoration:none; color:inherit;">Contact</a>
+</div>
+
+</body>
+</html>
