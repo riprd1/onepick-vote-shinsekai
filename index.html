@@ -7,17 +7,18 @@
 <title>投票（1人）</title>
   <style>
     :root{
-      --bd:#e6e6e6;
-      --bg:#fafafa;
-      --txt:#111;
-      --sub:#666;
-      --pill:#f2f2f2;
+      --bd:#5f73d6;
+      --bg:#0a1596;
+      --txt:#ffffff;
+      --sub:#d7defc;
+      --pill:#1f2fb0;
     }
     body{
       font-family: system-ui, -apple-system, sans-serif;
       margin: 0;
       color: var(--txt);
-      background: #fff;
+      background:
+        linear-gradient(180deg, #00008b 0%, #081a9a 55%, #1027a8 100%);
     }
 
     /* ===== ヘッダー画像 ===== */
@@ -35,9 +36,10 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255,255,255,.92);
+      background: rgba(0,0,139,.94);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--bd);
+      border-bottom: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
     }
     .topNavInner{
       display:flex;
@@ -49,7 +51,7 @@
     .brand{
       font-weight: 900;
       font-size: 13px;
-      color: var(--sub);
+      color: #eef2ff;
       white-space: nowrap;
     }
     .navBtns{
@@ -60,8 +62,9 @@
     .navBtn{
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid var(--bd);
-      background:#fff;
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color:#fff;
       font-weight:900;
       cursor:pointer;
       display:inline-flex;
@@ -69,26 +72,28 @@
       gap:6px;
     }
     .navBtn.active{
-      background:#111;
-      color:#fff;
-      border-color:#111;
+      background:#fff;
+      color:#00008b;
+      border-color:#fff;
     }
 
     .page{
       padding: 16px;
     }
 
-    h1{font-size:18px;margin:12px 0 10px}
+    h1{font-size:18px;margin:12px 0 10px;color:#fff}
     .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .btn{
-      padding:10px 12px;border:1px solid var(--bd);
-      border-radius:12px;background:#fff;font-weight:800;cursor:pointer;
+      padding:10px 12px;border:1px solid rgba(255,255,255,.22);
+      border-radius:12px;background:#fff;color:#00008b;font-weight:800;cursor:pointer;
     }
-    .btn.primary{background:#111;color:#fff;border-color:#111}
+    .btn.primary{background:#00008b;color:#fff;border-color:rgba(255,255,255,.28)}
     .btn:disabled{opacity:.5;cursor:not-allowed}
     input[type="text"]{
-      padding:10px 12px;border:1px solid var(--bd);
+      padding:10px 12px;border:1px solid rgba(255,255,255,.20);
       border-radius:12px;min-width:180px;flex:1;
+      background: rgba(255,255,255,.96);
+      color:#111;
     }
     .sub{color:var(--sub);font-size:12px}
 
@@ -100,9 +105,9 @@
       margin-left: 10px;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(0,0,0,.15);
-      background: rgba(255,255,255,.9);
-      color: #111;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.95);
+      color: #00008b;
       font-weight: 900;
       font-size: 12px;
       text-decoration: none;
@@ -124,12 +129,12 @@
       justify-content:center;
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.22);
       background:#fff;
+      color:#00008b;
       font-weight:900;
       cursor:pointer;
       text-decoration:none;
-      color:#111;
       line-height: 1;
     }
     .xShareBtn:active{ transform: translateY(1px); }
@@ -140,10 +145,11 @@
 
     /* ===== 上：選択1人 ===== */
     .selectedWrap{
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.18);
       border-radius:16px;
       padding:12px;
-      background: var(--bg);
+      background: linear-gradient(180deg, rgba(0,0,139,.88) 0%, rgba(16,39,168,.88) 100%);
+      box-shadow: 0 10px 28px rgba(0,0,0,.16);
     }
     .selectedTitle{
       font-weight:900;
@@ -153,6 +159,7 @@
       justify-content:space-between;
       align-items:center;
       gap:10px;
+      color:#fff;
     }
     .selectedCount{font-weight:900}
 
@@ -168,11 +175,11 @@
       width:74px;
       height:74px;
       border-radius:18px;
-      border:2px dashed #cfcfcf;
-      background:#fff;
+      border:2px dashed rgba(255,255,255,.32);
+      background: rgba(255,255,255,.14);
       display:grid;
       place-items:center;
-      color:#9a9a9a;
+      color:#eef2ff;
       font-weight:900;
       position:relative;
       user-select:none;
@@ -181,10 +188,11 @@
     }
     .slot.filled{
       border-style:solid;
-      border-color:#dedede;
+      border-color:rgba(255,255,255,.25);
       padding:0;
       overflow:hidden;
       cursor: pointer;
+      background:#fff;
     }
     .slot img{
       width:100%;
@@ -206,6 +214,7 @@
       margin:0;
       font-size:14px;
       font-weight:900;
+      color:#fff;
     }
     .controlsRow{
       margin-top:10px;
@@ -218,10 +227,10 @@
       position: sticky;
       top: 56px;
       z-index: 30;
-      background: rgba(255,255,255,.95);
+      background: rgba(0,0,139,.82);
       backdrop-filter: blur(6px);
       padding: 10px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid rgba(255,255,255,.12);
     }
 
     .controlsRow input[type="text"]{
@@ -231,8 +240,9 @@
     .togglePill{
       padding:10px 12px;
       border-radius:14px;
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.22);
       background:#fff;
+      color:#00008b;
       font-weight:900;
       cursor:pointer;
       white-space:nowrap;
@@ -241,7 +251,7 @@
       gap:8px;
     }
     .togglePill .dot{
-      width:10px;height:10px;border-radius:999px;background:#111;opacity:.25;
+      width:10px;height:10px;border-radius:999px;background:#00008b;opacity:.25;
     }
     .togglePill.on .dot{ opacity:1; }
 
@@ -249,15 +259,18 @@
       margin-top: 14px;
       border-radius: 18px;
       overflow: visible;
-      background-image: url("https://i.imgur.com/eTuwSDL.png");
+      background:
+        linear-gradient(180deg, rgba(0,0,139,.88) 0%, rgba(16,39,168,.90) 100%),
+        url("https://i.imgur.com/eTuwSDL.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       padding: 14px;
-      border: 1px solid var(--bd);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 28px rgba(0,0,0,.16);
     }
     .listSection .overlay{
-      background: rgba(255,255,255,.82);
+      background: rgba(255,255,255,.08);
       border-radius: 16px;
       padding: 12px;
     }
@@ -270,13 +283,14 @@
     }
     .card{
       position: relative;
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.18);
       border-radius:18px;
       padding:12px;
       background:#fff;
       display:flex;
       flex-direction:column;
       gap:10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
     }
     .avatar{
       width:100%;
@@ -300,9 +314,9 @@
       right:10px;
       padding:6px 12px;
       border-radius:999px;
-      border:2px solid rgba(100,150,255,.35);
-      background:rgba(255,255,255,.85);
-      color:#2f6fe8;
+      border:2px solid rgba(0,0,139,.18);
+      background:rgba(255,255,255,.92);
+      color:#00008b;
       font-weight:900;
       font-size:12px;
       text-decoration:none;
@@ -341,8 +355,9 @@
       font-size:14px;
       line-height:1.25;
       word-break:break-word;
+      color:#111;
     }
-    .meta{font-size:12px;color:var(--sub);margin-top:4px}
+    .meta{font-size:12px;color:#4a4a4a;margin-top:4px}
 
     .picked{
       opacity: .45;
@@ -399,10 +414,11 @@
       padding: 16px;
     }
     .rankCard{
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.18);
       border-radius:16px;
-      background: #fff;
+      background: linear-gradient(180deg, rgba(0,0,139,.88) 0%, rgba(16,39,168,.88) 100%);
       overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,.16);
     }
     .rankHead{
       display:flex;
@@ -410,17 +426,18 @@
       justify-content:space-between;
       gap:10px;
       padding:12px 12px;
-      background: var(--bg);
-      border-bottom:1px solid var(--bd);
+      background: rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.12);
     }
     .rankHead h2{
       margin:0;
       font-size:14px;
       font-weight:900;
+      color:#fff;
     }
     .rankMeta{
       font-size:12px;
-      color: var(--sub);
+      color: #dfe6ff;
       white-space:nowrap;
     }
     .rankBody{
@@ -436,13 +453,13 @@
     }
     .rankStatus{
       font-size:12px;
-      color: var(--sub);
+      color: #dfe6ff;
       margin:0;
       white-space:nowrap;
     }
     .rankHint{
       font-size:12px;
-      color: var(--sub);
+      color: #dfe6ff;
       margin:0;
       text-align:right;
       white-space:nowrap;
@@ -452,17 +469,22 @@
       width:100%;
       border-collapse: collapse;
       font-size:13px;
+      background:#fff;
+      border-radius:14px;
+      overflow:hidden;
     }
     .rankTable th, .rankTable td{
       padding: 10px 6px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid #e8ecff;
       vertical-align: middle;
+      color:#111;
     }
     .rankTable th{
       text-align:left;
-      color: var(--sub);
+      color: #4b568e;
       font-weight:800;
       font-size:12px;
+      background:#f4f6ff;
     }
     .rankNum{ width:44px; font-weight:900; }
 
@@ -528,8 +550,8 @@
     }
     .modalHead{
       padding: 14px 14px 10px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--bd);
+      background: #eef2ff;
+      border-bottom: 1px solid #d7defc;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -539,9 +561,10 @@
       font-weight: 1000;
       font-size: 14px;
       margin: 0;
+      color:#00008b;
     }
     .modalCloseX{
-      border: 1px solid var(--bd);
+      border: 1px solid #d7defc;
       background:#fff;
       border-radius: 999px;
       width: 34px;
@@ -549,9 +572,11 @@
       cursor: pointer;
       font-weight: 1000;
       line-height: 1;
+      color:#00008b;
     }
     .modalBody{
       padding: 14px;
+      color:#111;
     }
     .modalMsg{
       margin: 0 0 12px;
@@ -560,7 +585,7 @@
     }
     .modalSub{
       margin: 0 0 14px;
-      color: var(--sub);
+      color: #4a4a4a;
       font-size: 12px;
       line-height: 1.5;
     }
@@ -577,25 +602,25 @@
       justify-content:center;
       padding:6px 10px;
       border-radius:10px;
-      border:1px solid var(--bd);
+      border:1px solid #d7defc;
       background:#fff;
       font-weight:900;
       font-size:12px;
       cursor:pointer;
       text-decoration:none;
-      color:#111;
+      color:#00008b;
       line-height:1;
     }
     .modalBtn.primary{
-      background:#111;
+      background:#00008b;
       color:#fff;
-      border-color:#111;
+      border-color:#00008b;
     }
 
     .myBox{
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.16);
       border-radius:16px;
-      background:#fff;
+      background: rgba(255,255,255,.08);
       padding:10px;
       margin: 0 0 10px;
     }
@@ -608,8 +633,9 @@
     .myBtn{
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid var(--bd);
+      border:1px solid rgba(255,255,255,.22);
       background:#fff;
+      color:#00008b;
       font-weight:900;
       cursor:pointer;
       display:inline-flex;
@@ -618,13 +644,13 @@
       line-height:1;
     }
     .myBtn.active{
-      background:#111;
+      background:#00008b;
       color:#fff;
-      border-color:#111;
+      border-color:#fff;
     }
     .myPanel{
       margin-top:10px;
-      border-top:1px solid #f0f0f0;
+      border-top:1px solid rgba(255,255,255,.12);
       padding-top:10px;
       display:none;
     }
@@ -636,7 +662,7 @@
       gap:10px;
     }
     .myItem{
-      border:1px solid #f1f1f1;
+      border:1px solid rgba(255,255,255,.14);
       border-radius:14px;
       padding:8px;
       background:#fff;
@@ -665,7 +691,7 @@
     .myCount{
       margin-top:4px;
       font-size:12px;
-      color: var(--sub);
+      color: #4b568e;
       font-weight:900;
     }
     .myTop3{
@@ -681,15 +707,16 @@
       width:22px;
       height:22px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.12);
+      border:1px solid rgba(0,0,139,.18);
       font-weight:1000;
       font-size:12px;
-      background:#fff;
+      background:#eef2ff;
+      color:#00008b;
     }
     .myNote{
       margin-top:10px;
       font-size:12px;
-      color: var(--sub);
+      color: #dfe6ff;
       line-height:1.5;
     }
 
@@ -716,11 +743,13 @@
       font-weight: 1000;
       font-size: 16px;
       margin-bottom: 12px;
+      color:#00008b;
     }
     .welcomeText{
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 20px;
+      color:#111;
     }
     .welcomeBtn{
       display: flex;
@@ -730,7 +759,7 @@
       margin: 0 auto;
       padding: 10px 12px;
       border-radius: 14px;
-      background: #111;
+      background: #00008b;
       color: #fff;
       font-weight: 1000;
       text-decoration: none;
@@ -790,7 +819,7 @@
         <div class="sub" style="margin-top:6px;">
           ※上の顔をタップで削除できます<br>
           ※投票権は日本時間0:00にリセットされます<br>
-          <span style="color:#d00; font-weight:900;">
+          <span style="color:#ffffff; font-weight:900;">
             ※本ページは非公式（ファンメイド）であり<br>
             番組・運営・公式投票とは無関係です。
             <a class="tiktokBtn" href="https://www.tiktok.com/@12agassi" target="_blank" rel="noopener noreferrer">TikTok</a>
@@ -1901,7 +1930,7 @@ window.addEventListener("load", () => {
 });
 </script>
 
-<div style="text-align:center; font-size:12px; opacity:0.6; margin-top:60px;">
+<div style="text-align:center; font-size:12px; color:#dfe6ff; opacity:0.9; margin-top:60px; margin-bottom:24px;">
   <a href="./about.html" style="text-decoration:none; color:inherit;">About</a> |
   <a href="./privacy.html" style="text-decoration:none; color:inherit;">Privacy</a> |
   <a href="./contact.html" style="text-decoration:none; color:inherit;">Contact</a>
