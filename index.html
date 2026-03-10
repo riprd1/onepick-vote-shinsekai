@@ -7,18 +7,18 @@
 <title>投票（1人）</title>
   <style>
     :root{
-      --bd:#5f73d6;
-      --bg:#0a1596;
+      --bd:#8ac4ff;
+      --bg:#1e90ff;
       --txt:#ffffff;
-      --sub:#d7defc;
-      --pill:#1f2fb0;
+      --sub:#eaf4ff;
+      --pill:#4aa8ff;
     }
     body{
       font-family: system-ui, -apple-system, sans-serif;
       margin: 0;
       color: var(--txt);
       background:
-        linear-gradient(180deg, #00008b 0%, #081a9a 55%, #1027a8 100%);
+        linear-gradient(180deg, #1e90ff 0%, #4aa8ff 55%, #78beff 100%);
     }
 
     /* ===== ヘッダー画像 ===== */
@@ -36,7 +36,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(0,0,139,.94);
+      background: rgba(30,144,255,.94);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 8px 20px rgba(0,0,0,.18);
@@ -51,7 +51,7 @@
     .brand{
       font-weight: 900;
       font-size: 13px;
-      color: #eef2ff;
+      color: #eef8ff;
       white-space: nowrap;
     }
     .navBtns{
@@ -73,7 +73,7 @@
     }
     .navBtn.active{
       background:#fff;
-      color:#00008b;
+      color:#1e90ff;
       border-color:#fff;
     }
 
@@ -85,9 +85,9 @@
     .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .btn{
       padding:10px 12px;border:1px solid rgba(255,255,255,.22);
-      border-radius:12px;background:#fff;color:#00008b;font-weight:800;cursor:pointer;
+      border-radius:12px;background:#fff;color:#1e90ff;font-weight:800;cursor:pointer;
     }
-    .btn.primary{background:#00008b;color:#fff;border-color:rgba(255,255,255,.28)}
+    .btn.primary{background:#1e90ff;color:#fff;border-color:rgba(255,255,255,.28)}
     .btn:disabled{opacity:.5;cursor:not-allowed}
     input[type="text"]{
       padding:10px 12px;border:1px solid rgba(255,255,255,.20);
@@ -107,7 +107,7 @@
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.25);
       background: rgba(255,255,255,.95);
-      color: #00008b;
+      color: #1e90ff;
       font-weight: 900;
       font-size: 12px;
       text-decoration: none;
@@ -131,7 +131,7 @@
       border-radius:12px;
       border:1px solid rgba(255,255,255,.22);
       background:#fff;
-      color:#00008b;
+      color:#1e90ff;
       font-weight:900;
       cursor:pointer;
       text-decoration:none;
@@ -148,7 +148,7 @@
       border:1px solid rgba(255,255,255,.18);
       border-radius:16px;
       padding:12px;
-      background: linear-gradient(180deg, rgba(0,0,139,.88) 0%, rgba(16,39,168,.88) 100%);
+      background: linear-gradient(180deg, rgba(30,144,255,.88) 0%, rgba(74,168,255,.88) 100%);
       box-shadow: 0 10px 28px rgba(0,0,0,.16);
     }
     .selectedTitle{
@@ -179,7 +179,7 @@
       background: rgba(255,255,255,.14);
       display:grid;
       place-items:center;
-      color:#eef2ff;
+      color:#eef8ff;
       font-weight:900;
       position:relative;
       user-select:none;
@@ -227,7 +227,7 @@
       position: sticky;
       top: 56px;
       z-index: 30;
-      background: rgba(0,0,139,.82);
+      background: rgba(30,144,255,.82);
       backdrop-filter: blur(6px);
       padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,.12);
@@ -242,7 +242,7 @@
       border-radius:14px;
       border:1px solid rgba(255,255,255,.22);
       background:#fff;
-      color:#00008b;
+      color:#1e90ff;
       font-weight:900;
       cursor:pointer;
       white-space:nowrap;
@@ -251,7 +251,7 @@
       gap:8px;
     }
     .togglePill .dot{
-      width:10px;height:10px;border-radius:999px;background:#00008b;opacity:.25;
+      width:10px;height:10px;border-radius:999px;background:#1e90ff;opacity:.25;
     }
     .togglePill.on .dot{ opacity:1; }
 
@@ -260,7 +260,7 @@
       border-radius: 18px;
       overflow: visible;
       background:
-        linear-gradient(180deg, rgba(0,0,139,.88) 0%, rgba(16,39,168,.90) 100%),
+        linear-gradient(180deg, rgba(30,144,255,.88) 0%, rgba(74,168,255,.90) 100%),
         url("https://i.imgur.com/eTuwSDL.png");
       background-size: cover;
       background-position: center;
@@ -314,9 +314,9 @@
       right:10px;
       padding:6px 12px;
       border-radius:999px;
-      border:2px solid rgba(0,0,139,.18);
+      border:2px solid rgba(30,144,255,.18);
       background:rgba(255,255,255,.92);
-      color:#00008b;
+      color:#1e90ff;
       font-weight:900;
       font-size:12px;
       text-decoration:none;
@@ -416,7 +416,7 @@
     .rankCard{
       border:1px solid rgba(255,255,255,.18);
       border-radius:16px;
-      background: linear-gradient(180deg, rgba(0,0,139,.88) 0%, rgba(16,39,168,.88) 100%);
+      background: linear-gradient(180deg, rgba(30,144,255,.88) 0%, rgba(74,168,255,.88) 100%);
       overflow: hidden;
       box-shadow: 0 10px 28px rgba(0,0,0,.16);
     }
@@ -437,7 +437,7 @@
     }
     .rankMeta{
       font-size:12px;
-      color: #dfe6ff;
+      color: #eaf4ff;
       white-space:nowrap;
     }
     .rankBody{
@@ -453,13 +453,13 @@
     }
     .rankStatus{
       font-size:12px;
-      color: #dfe6ff;
+      color: #eaf4ff;
       margin:0;
       white-space:nowrap;
     }
     .rankHint{
       font-size:12px;
-      color: #dfe6ff;
+      color: #eaf4ff;
       margin:0;
       text-align:right;
       white-space:nowrap;
@@ -585,8 +585,8 @@
     }
     .modalHead{
       padding: 14px 14px 10px;
-      background: #eef2ff;
-      border-bottom: 1px solid #d7defc;
+      background: #eef8ff;
+      border-bottom: 1px solid #d8ecff;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -596,10 +596,10 @@
       font-weight: 1000;
       font-size: 14px;
       margin: 0;
-      color:#00008b;
+      color:#1e90ff;
     }
     .modalCloseX{
-      border: 1px solid #d7defc;
+      border: 1px solid #d8ecff;
       background:#fff;
       border-radius: 999px;
       width: 34px;
@@ -607,7 +607,7 @@
       cursor: pointer;
       font-weight: 1000;
       line-height: 1;
-      color:#00008b;
+      color:#1e90ff;
     }
     .modalBody{
       padding: 14px;
@@ -637,19 +637,19 @@
       justify-content:center;
       padding:6px 10px;
       border-radius:10px;
-      border:1px solid #d7defc;
+      border:1px solid #d8ecff;
       background:#fff;
       font-weight:900;
       font-size:12px;
       cursor:pointer;
       text-decoration:none;
-      color:#00008b;
+      color:#1e90ff;
       line-height:1;
     }
     .modalBtn.primary{
-      background:#00008b;
+      background:#1e90ff;
       color:#fff;
-      border-color:#00008b;
+      border-color:#1e90ff;
     }
 
     .successPicked{
@@ -658,8 +658,8 @@
       gap:12px;
       padding:12px;
       border-radius:16px;
-      background: linear-gradient(180deg, #eef2ff 0%, #dde5ff 100%);
-      border:1px solid #d4dcff;
+      background: linear-gradient(180deg, #eef8ff 0%, #dff0ff 100%);
+      border:1px solid #cfe7ff;
       margin: 0 0 14px;
     }
     .successPickedThumb{
@@ -689,7 +689,7 @@
     }
     .successPickedName{
       font-size:16px;
-      color:#00008b;
+      color:#1e90ff;
       font-weight:1000;
       line-height:1.35;
       word-break:break-word;
@@ -713,7 +713,7 @@
       border-radius:999px;
       border:1px solid rgba(255,255,255,.22);
       background:#fff;
-      color:#00008b;
+      color:#1e90ff;
       font-weight:900;
       cursor:pointer;
       display:inline-flex;
@@ -722,7 +722,7 @@
       line-height:1;
     }
     .myBtn.active{
-      background:#00008b;
+      background:#1e90ff;
       color:#fff;
       border-color:#fff;
     }
@@ -785,16 +785,16 @@
       width:22px;
       height:22px;
       border-radius:999px;
-      border:1px solid rgba(0,0,139,.18);
+      border:1px solid rgba(30,144,255,.18);
       font-weight:1000;
       font-size:12px;
-      background:#eef2ff;
-      color:#00008b;
+      background:#eef8ff;
+      color:#1e90ff;
     }
     .myNote{
       margin-top:10px;
       font-size:12px;
-      color: #dfe6ff;
+      color: #eaf4ff;
       line-height:1.5;
     }
 
@@ -821,7 +821,7 @@
       font-weight: 1000;
       font-size: 16px;
       margin-bottom: 12px;
-      color:#00008b;
+      color:#1e90ff;
     }
     .welcomeText{
       font-size: 14px;
@@ -837,7 +837,7 @@
       margin: 0 auto;
       padding: 10px 12px;
       border-radius: 14px;
-      background: #00008b;
+      background: #1e90ff;
       color: #fff;
       font-weight: 1000;
       text-decoration: none;
@@ -2038,7 +2038,7 @@ window.addEventListener("load", () => {
 });
 </script>
 
-<div style="text-align:center; font-size:12px; color:#dfe6ff; opacity:0.9; margin-top:60px; margin-bottom:24px;">
+<div style="text-align:center; font-size:12px; color:#eaf4ff; opacity:0.9; margin-top:60px; margin-bottom:24px;">
   <a href="./about.html" style="text-decoration:none; color:inherit;">About</a> |
   <a href="./privacy.html" style="text-decoration:none; color:inherit;">Privacy</a> |
   <a href="./contact.html" style="text-decoration:none; color:inherit;">Contact</a>
