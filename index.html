@@ -526,6 +526,41 @@
       white-space:nowrap;
     }
 
+    .rankBadge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:34px;
+      height:34px;
+      padding:0 8px;
+      border-radius:999px;
+      font-weight:1000;
+      font-size:16px;
+      line-height:1;
+      box-sizing:border-box;
+      border:1px solid rgba(0,0,0,.08);
+      background:#eef2ff;
+      color:#24336f;
+    }
+    .rankBadge.gold{
+      background: linear-gradient(180deg, #fff8d6 0%, #f6cf4b 100%);
+      color:#6f4f00;
+      border-color:#e4bb2a;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+    }
+    .rankBadge.silver{
+      background: linear-gradient(180deg, #ffffff 0%, #d9dee8 100%);
+      color:#4c5563;
+      border-color:#bcc4d1;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+    }
+    .rankBadge.bronze{
+      background: linear-gradient(180deg, #ffe6d4 0%, #c9834f 100%);
+      color:#6a3717;
+      border-color:#b16c3d;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+    }
+
     #rankOpenSheet{ display:none; }
 
     .modalOverlay{
@@ -615,6 +650,49 @@
       background:#00008b;
       color:#fff;
       border-color:#00008b;
+    }
+
+    .successPicked{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      border-radius:16px;
+      background: linear-gradient(180deg, #eef2ff 0%, #dde5ff 100%);
+      border:1px solid #d4dcff;
+      margin: 0 0 14px;
+    }
+    .successPickedThumb{
+      width:74px;
+      height:74px;
+      border-radius:16px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+    }
+    .successPickedThumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .successPickedText{
+      min-width:0;
+      flex:1;
+    }
+    .successPickedLabel{
+      font-size:12px;
+      color:#4b568e;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+    .successPickedName{
+      font-size:16px;
+      color:#00008b;
+      font-weight:1000;
+      line-height:1.35;
+      word-break:break-word;
     }
 
     .myBox{
@@ -931,6 +1009,15 @@
       </div>
       <div class="modalBody">
         <p class="modalMsg">投票を送信しました！</p>
+        <div id="successPicked" class="successPicked" style="display:none;">
+          <div class="successPickedThumb">
+            <img id="successPickedImg" src="" alt="">
+          </div>
+          <div class="successPickedText">
+            <div class="successPickedLabel">今回投票した練習生</div>
+            <div id="successPickedName" class="successPickedName"></div>
+          </div>
+        </div>
         <p class="modalSub">このままXの投稿画面へ飛べます（ハッシュタグ付き）。</p>
 
         <div style="text-align:center; margin:14px 0;">
@@ -1169,10 +1256,24 @@ const successModal  = document.getElementById("successModal");
 const successXBtn   = document.getElementById("successXBtn");
 const successOkBtn  = document.getElementById("successOkBtn");
 const successCloseX = document.getElementById("successCloseX");
+const successPicked = document.getElementById("successPicked");
+const successPickedImg = document.getElementById("successPickedImg");
+const successPickedName = document.getElementById("successPickedName");
 
-function openSuccessModal(){
+function openSuccessModal(votedId){
   if(!successModal) return;
   if(successXBtn) successXBtn.href = buildXIntentURL();
+
+  const voted = votedId ? byId.get(votedId) : null;
+  if(successPicked && successPickedImg && successPickedName && voted){
+    successPickedImg.src = voted.img || "";
+    successPickedImg.alt = voted.name || "";
+    successPickedName.textContent = voted.name || "";
+    successPicked.style.display = "flex";
+  }else if(successPicked){
+    successPicked.style.display = "none";
+  }
+
   successModal.classList.add("open");
   successModal.setAttribute("aria-hidden","false");
   document.body.style.overflow = "hidden";
@@ -1636,6 +1737,7 @@ async function submitToGoogleForm(){
     return;
   }
 
+  const votedId = selected[0];
   const userKey = getOrCreateUserKey();
   const date = todayTokyo();
   const token = `${userKey}|${date}`;
@@ -1648,7 +1750,7 @@ async function submitToGoogleForm(){
   const fd = new FormData();
   fd.append(ENTRY_USERKEY, userKey);
   fd.append(ENTRY_DATE, date);
-  fd.append(ENTRY_VOTEID, selected[0]);
+  fd.append(ENTRY_VOTEID, votedId);
 
   try{
     voteBtn.disabled = true;
@@ -1660,7 +1762,7 @@ async function submitToGoogleForm(){
 
     saveMyVote(selected.slice(0, MAX), date);
 
-    openSuccessModal();
+    openSuccessModal(votedId);
 
     if(shareWrap && xShareBtn){
       xShareBtn.href = buildXIntentURL();
@@ -1746,6 +1848,12 @@ function nowTokyoTime(){
 function buildRankingLink(id){
   return `https://produce101.jp/profile/detail/?id=${encodeURIComponent(id)}`;
 }
+function buildRankBadge(shownRank){
+  if(shownRank === 1) return `<span class="rankBadge gold">🥇</span>`;
+  if(shownRank === 2) return `<span class="rankBadge silver">🥈</span>`;
+  if(shownRank === 3) return `<span class="rankBadge bronze">🥉</span>`;
+  return `<span class="rankBadge">${shownRank}</span>`;
+}
 
 function renderRanking(){
   const list = rankAllData.slice(0, rankVisibleCount);
@@ -1771,7 +1879,7 @@ function renderRanking(){
     const dispName = person ? person.name.split("(")[0] : x.id;
 
     tr.innerHTML = `
-      <td class="rankNum">${shownRank}</td>
+      <td class="rankNum">${buildRankBadge(shownRank)}</td>
       <td>
         <div class="rankLeft">
           <a class="rankThumbLink"
