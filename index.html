@@ -472,6 +472,7 @@
       background:#fff;
       border-radius:14px;
       overflow:hidden;
+      table-layout: fixed;
     }
     .rankTable th, .rankTable td{
       padding: 10px 6px;
@@ -486,10 +487,13 @@
       font-size:12px;
       background:#f4f6ff;
     }
-    .rankNum{ width:44px; font-weight:900; }
+    .rankNum{
+      width:54px;
+      font-weight:900;
+    }
 
     .rankVotes{
-      width:88px;
+      width:76px;
       text-align:right;
       font-variant-numeric: tabular-nums;
       font-weight:900;
@@ -501,6 +505,7 @@
       align-items:center;
       gap:10px;
       min-width:0;
+      width:100%;
     }
     .rankThumbLink{
       display:inline-flex;
@@ -521,6 +526,8 @@
     }
     .rankName{
       font-weight:900;
+      min-width:0;
+      flex:1 1 auto;
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;
